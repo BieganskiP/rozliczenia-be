@@ -3,12 +3,15 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 const cookieSession = require('cookie-session');
 
+const port = process.env.PORT || 3001;
+const sesionKey = process.env.COOKIE_SESSION;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(
     cookieSession({
-      keys: ['mkpmnjikomnjidasfdasfsad'],
+      keys: [sesionKey],
     }),
   );
   app.useGlobalPipes(
@@ -18,6 +21,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(3001);
+  await app.listen(port);
 }
 bootstrap();
