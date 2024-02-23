@@ -47,7 +47,7 @@ export class RegistryService {
   }
 
   async findByCriteria(
-    userId?: number | null,
+    userId: number,
     startDate?: string,
     endDate?: string,
   ): Promise<Registry[]> {

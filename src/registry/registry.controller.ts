@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RegistryService } from './registry.service';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -25,7 +26,7 @@ export class RegistryController {
   }
 
   @Get('/:id')
-  getOne(@Param('id') id: string) {
+  getOne(@Param('id', ParseIntPipe) id: string) {
     return this.registryService.findOne(+id);
   }
 
@@ -49,11 +50,10 @@ export class RegistryController {
 
   @Get('/search')
   getByCriteria(
-    @Query('user_id') userId: string,
+    @Query('user_id', ParseIntPipe) userId: number,
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,
   ) {
-    const userIdNum = userId ? +userId : null;
-    return this.registryService.findByCriteria(userIdNum, startDate, endDate);
+    return this.registryService.findByCriteria(userId, startDate, endDate);
   }
 }
