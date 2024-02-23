@@ -1,8 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { UserRole } from './enums/user-role.enum';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +17,7 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  async save(user: User) {
+  save(user: User) {
     return this.repo.save(user);
   }
 
@@ -33,16 +36,6 @@ export class UsersService {
     const user = await this.findOne(id);
     if (!user) {
       throw new NotFoundException('Unable to update, user not found.');
-    }
-
-    if (
-      attrs.role &&
-      Object.values(UserRole).includes(attrs.role as UserRole)
-    ) {
-      user.role = attrs.role as UserRole;
-    } else {
-      // Handle the case where attrs.role is not a valid UserRole value
-      // This might involve throwing an error or ignoring the invalid role value
     }
 
     Object.assign(user, attrs);

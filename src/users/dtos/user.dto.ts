@@ -1,7 +1,4 @@
 import { Expose } from 'class-transformer';
-import { IsEnum } from 'class-validator';
-import { UserRole } from '../enums/user-role.enum';
-
 export class UserDto {
   @Expose()
   id: number;
