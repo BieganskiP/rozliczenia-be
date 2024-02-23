@@ -6,4 +6,7 @@ export class CreateRegistryDto {
 
   @IsDateString()
   date: Date;
+
+  @IsNumber()
+  wage: number;
 }

@@ -31,10 +31,12 @@ export class RegistryService {
   async create(
     createRegistryDto: CreateRegistryDto,
     userId: number,
+    wage: number,
   ): Promise<Registry> {
     const registry = this.registryRepository.create({
       ...createRegistryDto,
       user_id: userId,
+      wage,
     });
 
     return this.registryRepository.save(registry);
@@ -47,12 +49,11 @@ export class RegistryService {
   }
 
   async findByCriteria(
-    userId: number,
+    userId?: number,
     startDate?: string,
     endDate?: string,
   ): Promise<Registry[]> {
     const where: FindOptionsWhere<Registry> = {};
-
     if (userId) where.user_id = userId;
 
     if (startDate && endDate) {

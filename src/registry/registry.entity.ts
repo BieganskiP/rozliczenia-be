@@ -13,4 +13,7 @@ export class Registry {
 
   @Column()
   user_id: number;
+
+  @Column({ type: 'float', default: 0 })
+  wage: number;
 }
