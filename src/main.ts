@@ -2,16 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 const cookieSession = require('cookie-session');
+require('dotenv').config();
 
-const port = process.env.PORT || 3001;
-const sesionKey = process.env.COOKIE_SESSION;
+const port = process.env.PORT || 3002;
+const sessionKey = process.env.SESSION_KEY;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(
     cookieSession({
-      keys: [sesionKey],
+      keys: [sessionKey],
     }),
   );
   app.useGlobalPipes(
