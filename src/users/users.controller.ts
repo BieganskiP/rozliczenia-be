@@ -23,6 +23,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './user.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -30,6 +31,7 @@ export class UsersController {
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
+    private readonly mailerService: MailerService,
   ) {}
 
   @Get('/current-user')
@@ -47,6 +49,22 @@ export class UsersController {
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signup(body.email, body.password);
     session.userId = user.id;
+
+    await this.mailerService.sendMail({
+      to: body.email,
+      subject: 'Account Created Successfully',
+      text: `Hello, 
+      Thank you for signing up for our service! Your account has been created successfully.
+      
+      If you have any questions, feel free to reply to this email.
+      
+      Best,
+      The Team`,
+      html: `<p>Hello,</p>
+      <p>Thank you for signing up for our service! Your account has been created successfully.</p>
+      <p>If you have any questions, feel free to reply to this email.</p>
+      <p>Best,<br>The Team</p>`,
+    });
 
     return user;
   }

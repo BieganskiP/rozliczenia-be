@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Registry } from './registry/registry.entity';
 import { RegistryModule } from './registry/registry.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -18,6 +19,20 @@ import { RegistryModule } from './registry/registry.module';
       synchronize: true,
       logging: true,
       logger: 'advanced-console',
+    }),
+    MailerModule.forRoot({
+      transport: {
+        host: 'xpoczta.hb.pl',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'admin@specroll.pl',
+          pass: 'Newworlddisorder1996',
+        },
+      },
+      defaults: {
+        from: '"No Reply" <admin@specroll.pl>',
+      },
     }),
   ],
   controllers: [AppController],

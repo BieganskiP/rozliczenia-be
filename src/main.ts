@@ -15,6 +15,14 @@ async function bootstrap() {
       keys: [sessionKey],
     }),
   );
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'https://cl-ds.up.railway.app',
+      'https://rozliczenia.vercel.app',
+    ],
+    credentials: true,
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
