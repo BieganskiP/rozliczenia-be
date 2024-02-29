@@ -7,15 +7,18 @@ import { User } from './users/user.entity';
 import { Registry } from './registry/registry.entity';
 import { RegistryModule } from './registry/registry.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { InvitationsModule } from './invitations/invitations.module';
+import { Invitation } from './invitations/invitations.entity';
 
 @Module({
   imports: [
     UsersModule,
     RegistryModule,
+    InvitationsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Registry],
+      entities: [User, Registry, Invitation],
       synchronize: true,
       logging: true,
       logger: 'advanced-console',

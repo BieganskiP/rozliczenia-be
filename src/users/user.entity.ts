@@ -6,7 +6,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Registry } from 'src/registry/registry.entity';
 
 @Entity()
 export class User {
