@@ -69,7 +69,7 @@ export class UsersController {
     return user;
   }
 
-  @Get()
+  @Get("/email")
   findAllUsers(@Query('email') email: string) {
     return this.usersService.find(email);
   }
@@ -95,5 +95,10 @@ export class UsersController {
       body.currentPassword,
       body.newPassword,
     );
+  }
+
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
   }
 }

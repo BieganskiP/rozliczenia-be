@@ -45,4 +45,8 @@ export class UsersService {
     }
     return this.repo.remove(user);
   }
+
+  findAll() {
+    return this.repo.find();
+  }
 }
