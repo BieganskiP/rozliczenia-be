@@ -12,6 +12,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -23,6 +24,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './user.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Response } from 'express';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -32,15 +34,17 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  @Post('/signout')
+  @UseGuards(AuthGuard)
+  signOut(@Session() session: any, @Res() response: Response) {
+    response.cookie('cl-ds-session', '', { expires: new Date(0) });
+    response.json({ message: 'Logged out successfully' });
+  }
+
   @Get('/current-user')
   @UseGuards(AuthGuard)
   currentUser(@CurrentUser() user: User) {
     return user;
-  }
-
-  @Post('/signout')
-  signOut(@Session() session: any) {
-    session.userId = null;
   }
 
   @Post('/signup')
@@ -69,7 +73,7 @@ export class UsersController {
     return user;
   }
 
-  @Get("/email")
+  @Get('/email')
   findAllUsers(@Query('email') email: string) {
     return this.usersService.find(email);
   }

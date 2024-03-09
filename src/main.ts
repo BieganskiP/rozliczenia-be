@@ -12,7 +12,9 @@ async function bootstrap() {
 
   app.use(
     cookieSession({
+      name: 'cl-ds-session',
       keys: [sessionKey],
+      httpOnly: false,
     }),
   );
   app.enableCors({
